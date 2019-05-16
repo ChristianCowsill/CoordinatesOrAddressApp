@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">CoordinatesOrAddressApp</string>
+    <string name="tb_address">Address</string>
+    <string name="tb_coordinates">Coordinates</string>
+    <string name="et_hint_latitude">Latitude</string>
+    <string name="et_hint_longtitude">Longtitude</string>
+    <string name="et_hint_address">Address</string>
+    <string name="error_no_address">Sorry - you must suppy an address.</string>
+    <string name="error_no_lat_long">Sorry - you must supply latitude and longtitude.</string>
+</resources>
