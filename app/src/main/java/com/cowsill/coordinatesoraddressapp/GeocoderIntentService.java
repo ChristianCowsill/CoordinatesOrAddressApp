@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.util.Log;
 
 import java.io.IOException;
@@ -18,13 +19,15 @@ public class GeocoderIntentService extends IntentService {
         super(TAG);
     }
     Geocoder mGeocoder;
+    boolean mIsAddress;
+    Intent mDisplayResultIntent;
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
         
-        boolean isAddress = intent.getBooleanExtra("addressOrCoord", false);
+        mIsAddress = intent.getBooleanExtra("addressOrCoord", false);
         mGeocoder = new Geocoder(this);
-        if(isAddress){
+        if(mIsAddress){
             getCoordinates(intent);
         } else {
             getAddress(intent);
@@ -39,6 +42,7 @@ public class GeocoderIntentService extends IntentService {
         double longtitude = intent.getDoubleExtra(Constants.LONGTITUDE, 0);
 
         List<Address> addresses = null;
+        String addressString = null;
 
         // Get array of addresses
         try{
@@ -59,9 +63,15 @@ public class GeocoderIntentService extends IntentService {
             Log.i(TAG, "getAddress: " + errorMessage);
         } else {
             Address address = addresses.get(0);
-            String addressString = address.getAddressLine(0);
-            Log.i(TAG, "getAddress: " + addressString);
+            addressString = address.getAddressLine(0);
+            mDisplayResultIntent = new Intent(this, DisplayResult.class);
+            mDisplayResultIntent.putExtra("isAddress", mIsAddress); // isAddress is FALSE
+            mDisplayResultIntent.putExtra("address", addressString);
+            mDisplayResultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(mDisplayResultIntent);
         }
+
+
 
     }
     
@@ -92,7 +102,12 @@ public class GeocoderIntentService extends IntentService {
             Address address = addresses.get(0);
             String latitudeString = String.valueOf(address.getLatitude());
             String longtitudeString = String.valueOf(address.getLongitude());
-            Log.i(TAG, "getCoordinates: " + latitudeString + ", " + longtitudeString);
+            mDisplayResultIntent = new Intent(this, DisplayResult.class);
+            mDisplayResultIntent.putExtra(Constants.IS_ADDRESS, mIsAddress); // isAddress is TRUE
+            mDisplayResultIntent.putExtra(Constants.LATITUDE, latitudeString);
+            mDisplayResultIntent.putExtra(Constants.LONGTITUDE, longtitudeString);
+            mDisplayResultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(mDisplayResultIntent);
         }
     }
 }
