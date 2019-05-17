@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         if(isAddress){
             if(!etAddress.getText().toString().isEmpty()){
                 String address = etAddress.getText().toString();
-                startServiceIntent.putExtra("address", address);
+                startServiceIntent.putExtra(Constants.ADDRESS, address);
                 startService(startServiceIntent);
             } else {
                 Toast.makeText(
@@ -87,8 +87,8 @@ public class MainActivity extends AppCompatActivity {
             if(!(etLatitude.getText().toString().isEmpty() || etLongtitude.getText().toString().isEmpty())){
                 double latitude = Double.parseDouble(etLatitude.getText().toString());
                 double longtitude = Double.parseDouble(etLongtitude.getText().toString());
-                startServiceIntent.putExtra("latitude", latitude);
-                startServiceIntent.putExtra("longtitude", longtitude);
+                startServiceIntent.putExtra(Constants.LATITUDE, latitude);
+                startServiceIntent.putExtra(Constants.LONGTITUDE, longtitude);
                 startService(startServiceIntent);
             } else {
                 Toast.makeText(

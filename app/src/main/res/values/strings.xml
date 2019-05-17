@@ -7,4 +7,6 @@
     <string name="et_hint_address">Address</string>
     <string name="error_no_address">Sorry - you must suppy an address.</string>
     <string name="error_no_lat_long">Sorry - you must supply latitude and longtitude.</string>
+    <string name="error_no_valid_address">No valid addresses found</string>
+    <string name="error_no_valid_coords">No valid coordinates</string>
 </resources>
